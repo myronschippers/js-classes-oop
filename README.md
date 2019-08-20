@@ -78,41 +78,28 @@ We can extend the functionality from one class to the next by using the `extend`
 Let's take a look at an example below:
 
 ```JavaScript 
-class MarketItem {
+import Employee from './Employee';
 
-  constructor(name, price, imgUrl){
-    this.name = name;
-    this.price = price;
-    this.imgUrl = imgUrl;
-  }
+class AnalystEmployee extends Employee {
+    constructor(first, last) {
+        super(first, last);
 
-  changePrice(){
-    this.price++;
-    console.log('Price Changed! ', this.price);
-  }
-}
-
-class Fruit extends MarketItem { 
-
-  constructor(name, price, imgUrl, freshness){
-    super(name, price, imgUrl);
-    this.freshness = freshness;
-  }
-
-  changePrice(){
-    super.changePrice();
-    this.freshness--;
-    if(this.freshness <=0){
-      this.price = 0;
-      console.log('Food spoiled: ', this.price);
-    } else {
-      console.log('Freshness: ', this.freshness);
+        this.jobTitle = 'Entry Analyst';
     }
-  }
+
+    promote() {
+        if (this.jobTitle === 'Entry Analyst') {
+            this.jobTitle = 'Analyst';
+        }
+    }
+
 }
 
-let apple = new Fruit('Apple', 1, 'something.jpg', 2);
-console.log(apple);
-apple.changePrice();
+export default AnalystEmployee;
 
+// USEAGE:
+const analyist = new AnalystEmployee('Joe', 'Shmoe');
+console.log('analyist: ', analyist);
+analyist.promote();
+console.log('analyist: ', analyist);
 ```
