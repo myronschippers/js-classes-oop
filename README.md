@@ -1,64 +1,118 @@
-# Webpack DEMO
 
-A small demonstration of what the [webpack]() bundler is capable of. We'll also take a look at how it works and the basic structure of bundling in general.
+# Classes and Inheritance
 
-## Setup
+Classes are a way to make a template for an Object. 
 
-We began with an empty folder and only adding a `README.md` & `.gitignore` files initially.
+## Classes vs Object-Literals
 
-*in `.gitignore`:*
+We can make an object-literal at any time like so: 
 
-```
-/node_modules
-.DS_Store
-package-lock.json
-```
-
-### Installing Dependencies
-
-In order to install the dependencies we need we initialized the `package.json` and then were able to start loading dependencies from `npm`.
-
-*run in terminal:*
-
-```
-npm init
+```JS
+const employee = {
+    firstName: 'Jim',
+    lastName: 'Loser',
+    fullName: 'Jim Loser',
+};
 ```
 
-Press enter through all of the options until you get to the very end. Fill out anything that you already have the information for but remember we can always go back and change this information as needed. After the package is initialized we can begin to install dependencies.
+But these get hard to manage. What if we have 15 different employees? What if someone accidentally makes the key `FirstName` instead of `firstName`? Or we want to add a salary property to each employee? NOOOOOOO!
 
-1. Install webpack as our bundler.
-    * run in terminal:
+Classes are NOT object-literals. They are a blueprint for making objects. When you make a class, you are describing the way the objects will eventually look. 
 
-        ```
-        npm install --save-dev webpack
-        ```
 
-1. Install the webpack CLI so that we can use a script to run webpack.
-    * run from terminal:
+## Class Syntax
+- Class (template)
+  -  constructor (what happens to make it)
+  -  `new` (make an instance of the class -- calls the constructor)
+  -  pass parameters to constructor, use said parameters
+  -  default parameters 
+  -  multiple instances
+  -  class methods
 
-        ```
-        npm install --save-dev webpack-cli
-        ```
 
-1. To run the bundler we'll setup a build script in our `package.json`.
-    * run from terminal:
-
-        ```JS
-        "scripts": {
-            ...
-            "build": "webpack --config webpack.config.js"
-        }
-        ```
-
-1. The build script we just put in is calling to a configuration file we have not yet created. Let's go ahead and make our initial configuration.
-    * make new file `webpack.config.js`:
-
-    ```
-    module.exports = {
-        ///WEBPACK CONFIG
+```
+class Employee {
+    constructor(first, last) {
+        this.firstName = first;
+        this.lastName = last;
+        this.fullName = this.createFullName();
     }
-    ```
 
-### Configuration Settings
+    createFullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 
-Webpack has many configuration option that we can set but there are only a couple that are absolutely required in order to run webpack and bundle all Front-End assets.
+    changeFirstName(newName) {
+        this.firstName = newName;
+        this.fullName = this.createFullName();
+    }
+}
+
+// Usage:
+let john = new Employee('John', 'Smith');
+let carrie = new Employee('Carrie', ');
+console.log('john: ', john);
+console.log('carrie: ', carrie);
+```
+
+## OOP
+
+Everything is a self contained object.  
+The object has every tool it needs to function. 
+One of the tenants of OOP is inheritance.
+
+Java, C++, C#, all are OOP languages
+
+Classes talking to each other is the pattern.
+
+## Inheritance
+We can extend the functionality from one class to the next by using the `extend` keyword. This will cause the `subclass` (or`child class`) to inherit its functionality from the `super class` (or `parent class`). You get more specific as you drill down.
+
+
+- `super()` actually creates the thing it extends -- Actually calls constructor from parent!
+-  can send parameters in super
+-  using inherited methods
+
+
+
+Let's take a look at an example below:
+
+```JavaScript 
+class MarketItem {
+
+  constructor(name, price, imgUrl){
+    this.name = name;
+    this.price = price;
+    this.imgUrl = imgUrl;
+  }
+
+  changePrice(){
+    this.price++;
+    console.log('Price Changed! ', this.price);
+  }
+}
+
+class Fruit extends MarketItem { 
+
+  constructor(name, price, imgUrl, freshness){
+    super(name, price, imgUrl);
+    this.freshness = freshness;
+  }
+
+  changePrice(){
+    super.changePrice();
+    this.freshness--;
+    if(this.freshness <=0){
+      this.price = 0;
+      console.log('Food spoiled: ', this.price);
+    } else {
+      console.log('Freshness: ', this.freshness);
+    }
+  }
+}
+
+let apple = new Fruit('Apple', 1, 'something.jpg', 2);
+console.log(apple);
+apple.changePrice();
+
+```
