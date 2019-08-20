@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
     // webpack configuration settings
     entry: './src/index.js', // kickoff location for Client
