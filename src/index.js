@@ -1,4 +1,6 @@
 import app from './app';
 
 console.log('I\'m a little index...');
-app();
+console.log('Hello Isurus!!!');
+
+console.log(app);
